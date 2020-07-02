@@ -8,6 +8,7 @@ public class App {
 		
 		var sellerDao = DaoFactory.createSellerDao();
 		
+		System.out.println("===>Testing findById<===");
 		var seller = sellerDao.findById(3);
 		
 		System.out.println(seller);
