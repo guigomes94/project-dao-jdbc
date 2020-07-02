@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,7 +26,41 @@ public class SellerDaoJDBC implements SellerDao{
 
 	@Override
 	public void insert(Seller obj) {
-		// TODO Auto-generated method stub
+		PreparedStatement query = null;
+		try {
+			query = conn.prepareStatement(
+					"INSERT INTO seller " +
+					"(name, email, birthDate, baseSalary, departmentId) " +
+					"VALUES (?, ?, ?, ?, ?)",
+					Statement.RETURN_GENERATED_KEYS
+					);
+			
+			query.setString(1, obj.getName());
+			query.setString(2, obj.getEmail());
+			query.setDate(3, new java.sql.Date(obj.getBirthDate().getTime()));
+			query.setDouble(4, obj.getBaseSalary());
+			query.setInt(5, obj.getDepartment().getId());
+			
+			int rowsAffected = query.executeUpdate();
+			
+			if (rowsAffected > 0) {
+				ResultSet result = query.getGeneratedKeys();
+				if (result.next()) {
+					int id = result.getInt(1);
+					obj.setId(id);
+				}
+				DB.closeResultSet(result);
+			} else {
+				throw new DbException("Unexpect error! No rows affected!");
+			}
+			
+		}
+		catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		}
+		finally {
+			DB.closeStatement(query);
+		}
 		
 	}
 
@@ -53,6 +88,7 @@ public class SellerDaoJDBC implements SellerDao{
 					"ON seller.DepartmentId = department.Id " + 
 					"WHERE seller.Id = ?;"
 					);
+			
 			query.setInt(1, id);
 			result = query.executeQuery();
 			
@@ -158,6 +194,7 @@ public class SellerDaoJDBC implements SellerDao{
 					"WHERE DepartmentId = ? " + 
 					"ORDER BY Name"
 					);
+			
 			query.setInt(1, department.getId());
 			result = query.executeQuery();
 			

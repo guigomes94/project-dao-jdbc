@@ -1,7 +1,10 @@
 package app;
 
+import java.util.Date;
+
 import dao.DaoFactory;
 import model.Department;
+import model.Seller;
 
 public class App {
 
@@ -21,6 +24,11 @@ public class App {
 		System.out.println("\n===>Testing findByAll<===");
 		var allSellers = sellerDao.findAll();
 		allSellers.stream().forEach(System.out::println);
+		
+		System.out.println("\n===>Testing insert<===");
+		var newSeller = new Seller(null, "Greg", "greg@gmail.com", new Date(), 4000.00, dep);
+		sellerDao.insert(newSeller);
+		System.out.println("Inserted! New ID = " + newSeller.getId());
 
 	}
 
