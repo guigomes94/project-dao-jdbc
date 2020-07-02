@@ -17,6 +17,10 @@ public class App {
 		var dep = new Department(2, null);
 		var sellers = sellerDao.findByDepartment(dep);
 		sellers.stream().forEach(System.out::println);
+		
+		System.out.println("\n===>Testing findByAll<===");
+		var allSellers = sellerDao.findAll();
+		allSellers.stream().forEach(System.out::println);
 
 	}
 
