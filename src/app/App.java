@@ -1,6 +1,7 @@
 package app;
 
 import dao.DaoFactory;
+import model.Department;
 
 public class App {
 
@@ -10,8 +11,12 @@ public class App {
 		
 		System.out.println("===>Testing findById<===");
 		var seller = sellerDao.findById(3);
-		
 		System.out.println(seller);
+		
+		System.out.println("\n===>Testing findByDepartment<===");
+		var dep = new Department(2, null);
+		var sellers = sellerDao.findByDepartment(dep);
+		sellers.stream().forEach(System.out::println);
 
 	}
 
