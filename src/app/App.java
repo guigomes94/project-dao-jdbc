@@ -25,10 +25,19 @@ public class App {
 		var allSellers = sellerDao.findAll();
 		allSellers.stream().forEach(System.out::println);
 		
-		System.out.println("\n===>Testing insert<===");
-		var newSeller = new Seller(null, "Greg", "greg@gmail.com", new Date(), 4000.00, dep);
-		sellerDao.insert(newSeller);
-		System.out.println("Inserted! New ID = " + newSeller.getId());
+		/*
+		 * System.out.println("\n===>Testing insert<==="); var newSeller = new
+		 * Seller(null, "Greg", "greg@gmail.com", new Date(), 4000.00, dep);
+		 * sellerDao.insert(newSeller); System.out.println("Inserted! New ID = " +
+		 * newSeller.getId());
+		 */
+		
+		System.out.println("\n===>Testing update<===");
+		var upSeller = sellerDao.findById(6);
+		upSeller.setName("James Bond");
+		upSeller.setEmail("007bond@gmail.com");
+		sellerDao.update(upSeller);
+		System.out.println("Updated!");
 
 	}
 
